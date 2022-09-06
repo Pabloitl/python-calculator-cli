@@ -16,14 +16,23 @@ def call_api(operation: str, data: dict[str,float]) -> None:
     return response.text
 
 
+def valid_float(number: str) -> bool:
+    try:
+        float(number)
+    except Exception as _:
+        return False
+
+    return True
+
+
 def valid_input(operation: str, first: str, second: str) -> bool:
     if operation not in URLS.keys():
         return False
 
-    if not first.isnumeric():
+    if not valid_float(first):
         return False
 
-    if not second.isnumeric():
+    if not valid_float(second):
         return False
 
     return True
@@ -44,8 +53,8 @@ def main() -> None:
                     continue
 
                 response = call_api(operation, {
-                    "first": int(first),
-                    "second": int(second),
+                    "first": float(first),
+                    "second": float(second),
                 })
 
                 print(response)
