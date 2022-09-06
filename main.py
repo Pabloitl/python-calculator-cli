@@ -9,9 +9,14 @@ URLS = {
     "divide": "divide/",
 }
 
-def call_api(operation: str, data: dict[str,float]) -> None:
+def call_api(operation: str, data: dict[str,float]) -> str:
     url = f'{API_URL}{URLS[operation]}'
-    response = requests.post(url, json=data)
+    response: requests.Response
+
+    try:
+        response = requests.post(url, json=data)
+    except Exception as _:
+        return "An error ocurred while making the request"
 
     return response.text
 
